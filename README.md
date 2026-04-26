@@ -41,7 +41,6 @@ git push -u origin main
 
 ```
 git remote add origin git@github.com:abcdavk/ecpts-algo-lanjut.git
-git commit -m ""
 git add .
 git commit -m ""
 git push -u origin main
