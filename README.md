@@ -2,7 +2,7 @@
 
 Baca
 
-### Setup
+### 1. Setup
 
 **Requirements**
 
@@ -13,6 +13,7 @@ Baca
 ```
 
 **Clone repo and open vscode**
+
 Buka terminal (powershell, cmd, tersrah)
 
 ```
@@ -21,11 +22,11 @@ cd ecpts-algo-lanjut
 code .
 ```
 
-### Add remote and push
+### 2. Add remote and push
 
 Pilih salah satu cara
 
-#### 1. Cara Normal
+#### a. Cara Normal
 
 ```
 git remote add origin https://github.com/abcdavk/ecpts-algo-lanjut
@@ -36,7 +37,7 @@ git push -u origin main
 
 ```
 
-#### 2. Cara SSH
+#### b. Cara SSH
 
 ```
 git remote add origin git@github.com:abcdavk/ecpts-algo-lanjut.git
