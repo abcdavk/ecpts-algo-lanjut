@@ -1,2 +1,5 @@
-bin
-.vscode
+*.exe
+*.obj
+/bin
+/output
+/.vscode
