@@ -14,42 +14,12 @@ const int MAX_DATA = 100;
 DataAnggota listAnggota[MAX_DATA];
 int jumlah = 0;
 
-void sequentialSearch() {
-    char ulangi = 't';
-    int noAnggota;
-    
-    do {
-        int i = 0;
-        cout << "\n\n";
-        cout << "SEQUENTIAL SEARCH" << endl;
-        cout << "=================" << endl;
-        cout << "\nNo Anggota yang dicari : ";
-        cin >> noAnggota;
-
-        while (listAnggota[i].noAnggota != noAnggota)
-        {
-            i++;
-        }
-        cout << "\n\nData di temukan" << endl;
-        cout << "==================================" << endl;
-        cout << " No. Anggota  : " << listAnggota[i].noAnggota << endl;
-        cout << " Nama Anggota : " << listAnggota[i].namaAnggota << endl;
-        cout << " Alamat       : " << listAnggota[i].alamat << endl;
-        cout << "==================================" << endl;       
-
-        cout << "Ulangi? (y/t) : ";
-
-        cin >> ulangi;
-    } while (ulangi == 'y' || ulangi == 'Y');
-}
-
 void inputData() {
     cout << "==================================" << endl;
     cout << "Jumlah data yang ingin diinput: ";
     cin >> jumlah;
 
     for (int i = 0; i < jumlah; i++) {
-        cout << " Nama Anggota : " << listAnggota[i].namaAnggota;
         cout << "==================================" << endl;
         cout << "Data ke-" << (i + 1) << endl;
         cout << "  No. Anggota  : ";
@@ -80,32 +50,51 @@ void tampilData() {
     cout << "==================================" << endl;
 }
 
+void shellSort() {
+    int i, j, k;
+
+    for (i = jumlah / 2; i > 0; i = i / 2) {
+        for (j = i; j < jumlah; j++) {
+            for (k = j - i; k >= 0; k = k - i) {
+                if (listAnggota[k + i].noAnggota < listAnggota[k].noAnggota) {
+                    swap(listAnggota[k], listAnggota[k + i]);
+                }
+            }
+        }
+    }
+
+    cout << "Data Setelah Shell Sort:" << endl;
+}
+
 void menuSorting(){
     int pilih;
     cout << "MENU :" << endl;
-        cout << "==========================" << endl;
-        cout << "1. BUBBLE SORT" << endl;
-        cout << "2. SELECTION SORT" << endl;
-        cout << "3. INSERTION SORT" << endl;
-        cout << "4. SHELL SORT" << endl;
-        cout << "5. QUICK SORT" << endl;
-        cout << "6. MERGE SORT" << endl;
-        cout << "7. EXIT" << endl;
-        cout << "==========================" << endl;
-        cout << "Pilih : ";
+    cout << "==========================" << endl;
+    cout << "1. BUBBLE SORT" << endl;
+    cout << "2. SELECTION SORT" << endl;
+    cout << "3. INSERTION SORT" << endl;
+    cout << "4. SHELL SORT" << endl;
+    cout << "5. QUICK SORT" << endl;
+    cout << "6. MERGE SORT" << endl;
+    cout << "7. EXIT" << endl;
+    cout << "==========================" << endl;
+    cout << "Pilih : "; cin >> pilih;
 
-        switch (pilih){
-        case 1:
-            break;
+    switch (pilih){
+        case 1: cout <<"ajjasakj";
+        case 2: cout <<"ahsdakjdha";
+        case 3: cout <<"ajdhskd";
+        case 4: shellSort(); break;
         
         default:
             break;
-        }
-        
+    }
+
+    tampilData();
+    
 }
 
 void menuSearching(){
-    int pilih;
     cout << "MENU :" << endl;
         cout << "==========================" << endl;
         cout << "1. SEQUENTIAL SEARCH" << endl;
@@ -113,13 +102,6 @@ void menuSearching(){
         cout << "3. EXIT" << endl;
         cout << "==========================" << endl;
         cout << "Pilih : ";
-    cin >> pilih;
-    switch (pilih)
-    {
-        case 1: sequentialSearch(); break;
-    
-        default: cout << "Pilihan menu tidak ada..." << endl;
-    }
 }
 
 int main() {
