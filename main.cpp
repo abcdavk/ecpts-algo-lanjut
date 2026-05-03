@@ -1,5 +1,13 @@
 #include <iostream>
+#include <fstream>
+using namespace std;
+
 
 int main() {
-    std::cout << "Hello wolrddd!";
+    ofstream test("test.txt");
+    cout << "Hello wolrddd!";
+
+    test << "Hi!!!";
+
+    test.close();
 }
