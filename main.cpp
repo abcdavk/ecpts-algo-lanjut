@@ -34,7 +34,7 @@ void sequentialSearch() {
         cout << "==================================" << endl;
         cout << " No. Anggota  : " << listAnggota[i].noAnggota << endl;
         cout << " Nama Anggota : " << listAnggota[i].namaAnggota << endl;
-        cout << " Alamat : " << listAnggota[i].alamat << endl;
+        cout << " Alamat       : " << listAnggota[i].alamat << endl;
         cout << "==================================" << endl;       
 
         cout << "Ulangi? (y/t) : ";
