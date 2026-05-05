@@ -51,7 +51,16 @@ void tampilData() {
     cout << "==================================" << endl;
 }
 
+void tampilDataById(int i) {
+    cout << "\nData di temukan" << endl;
+    cout << "==================================" << endl;
+    cout << " No. Anggota  : " << listAnggota[i].noAnggota << endl;
+    cout << " Nama Anggota : " << listAnggota[i].namaAnggota << endl;
+    cout << " Alamat       : " << listAnggota[i].alamat << endl;
+    cout << "==================================" << endl;
+}
 
+// Searching
 void sequentialSearch() {
     char ulangi = 't';
     int noAnggota;
@@ -64,23 +73,23 @@ void sequentialSearch() {
         cout << "\nNo Anggota yang dicari : ";
         cin >> noAnggota;
 
-        while (listAnggota[i].noAnggota != noAnggota)
+        while (i < jumlah && listAnggota[i].noAnggota != noAnggota)
         {
             i++;
         }
-        cout << "\n\nData di temukan" << endl;
-        cout << "==================================" << endl;
-        cout << " No. Anggota  : " << listAnggota[i].noAnggota << endl;
-        cout << " Nama Anggota : " << listAnggota[i].namaAnggota << endl;
-        cout << " Alamat       : " << listAnggota[i].alamat << endl;
-        cout << "==================================" << endl;       
-
+        if (i == jumlah)
+            cout << "\nData tidak ditemukan" << endl;
+        else
+            tampilDataById(i);
+        
         cout << "Ulangi? (y/t) : ";
-
         cin >> ulangi;
+
     } while (ulangi == 'y' || ulangi == 'Y');
 }
 
+
+// Sorting
 void shellSort() {
     int i, j, k;
 
@@ -164,6 +173,7 @@ void mergeShort(int left, int right){
     tampilData();
 };
 
+// Menus
 void menuSorting(){
     int pilih;
     cout << "MENU :" << endl;
