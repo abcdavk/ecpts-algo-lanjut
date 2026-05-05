@@ -37,7 +37,11 @@ void inputData() {
     cout << "Data berhasil diinput!" << endl;
 }
 
-void tampilData() {
+/**
+ * Tampilkan semua data
+ * @param array[] array yang ingin di gunakan
+ */
+void tampilData(DataAnggota array[]) {
     if (jumlah == 0) {
         cout << "==================================" << endl;
         cout << "data belum diinput" << endl;
@@ -45,28 +49,18 @@ void tampilData() {
     }
     for (int i = 0; i < jumlah; i++) {
         cout << "==================================" << endl;
-        cout << " No. Anggota  : " << listAnggota[i].noAnggota << endl;
-        cout << " Nama Anggota : " << listAnggota[i].namaAnggota << endl;
-        cout << " Alamat       : " << listAnggota[i].alamat << endl;
+        cout << " No. Anggota  : " << array[i].noAnggota << endl;
+        cout << " Nama Anggota : " << array[i].namaAnggota << endl;
+        cout << " Alamat       : " << array[i].alamat << endl;
         cout << "==================================" << endl << endl;
     }
 }
 
-void tampilDataSorted() {
-    if (jumlah == 0) {
-        cout << "==================================" << endl;
-        cout << "data belum diinput" << endl;
-        return;
-    }
-    for (int i = 0; i < jumlah; i++) {
-        cout << "==================================" << endl;
-        cout << " No. Anggota  : " << listAnggotaSorted[i].noAnggota << endl;
-        cout << " Nama Anggota : " << listAnggotaSorted[i].namaAnggota << endl;
-        cout << " Alamat       : " << listAnggotaSorted[i].alamat << endl;
-        cout << "==================================" << endl << endl;
-    }
-}
-
+/**
+ * Tampilkan isi data berdasarkan index
+ * @param i index yang ingin di tampilkan
+ * @param array[] array yang ingin di gunakan
+ */
 void tampilDataById(int i, DataAnggota array[]) {
     cout << "\nData di temukan" << endl;
     cout << "==================================" << endl;
@@ -76,6 +70,10 @@ void tampilDataById(int i, DataAnggota array[]) {
     cout << "==================================" << endl;
 }
 
+/**
+ * copy array listAnggota ke listAnggotaSorted
+ * supaya data utama tidak ter-sort
+ */
 void copyData() {
     for (int i = 0; i < jumlah; i++) {
         listAnggotaSorted[i] = listAnggota[i];
@@ -175,7 +173,7 @@ void bubbleSort() {
 // Bubble sort nya dua, yang atas buat sorting sebelum binary search
 void bubbleSortDisplay() {
     bubbleSort();
-    tampilDataSorted();
+    tampilData(listAnggotaSorted);
 }
 
 void selectionSort() {
@@ -196,7 +194,7 @@ void selectionSort() {
         swap(listAnggotaSorted[i], listAnggotaSorted[minIndex]);
     }
 
-    tampilDataSorted();
+    tampilData(listAnggotaSorted);
 }
 
 void shellSort() {
@@ -216,28 +214,33 @@ void shellSort() {
 }
 
 int partition(int low, int high){
-    int pivot = listAnggota[high].noAnggota;
-    int i = (low - 1);
+    int pivot = listAnggotaSorted[high].noAnggota;
+    int i = low - 1;
 
     for(int j = low; j < high; j++){
-        if(listAnggota[j].noAnggota <= pivot){
-            swap(listAnggota[i], listAnggota[j]);
+        if(listAnggotaSorted[j].noAnggota <= pivot){
             i++;
+            swap(listAnggotaSorted[i], listAnggotaSorted[j]);
         }
     }
 
-    swap(listAnggota[i + 1], listAnggota[high]);
-    return(i + 1);
-};
+    swap(listAnggotaSorted[i + 1], listAnggotaSorted[high]);
+    return i + 1;
+}
 
-void quickShort(int low, int high){
+void quickSort(int low, int high){
     if(low < high){
         int pi = partition(low, high);
-        quickShort(low, pi - 1);
-        quickShort(pi + 1, high);
+        quickSort(low, pi - 1);
+        quickSort(pi + 1, high);
     }
-    tampilData();
-};
+}
+
+void quickSortDisplay() {
+    copyData();
+    quickSort(0, jumlah - 1);
+    tampilData(listAnggotaSorted);
+}
 
 void merge(int left, int mid, int right){
     int i = left;
@@ -245,42 +248,47 @@ void merge(int left, int mid, int right){
     int k = left;
 
     while (i <= mid && j <= right){
-        if(listAnggota[i].noAnggota < listAnggota[j].noAnggota){
-            eBox[k] = listAnggota[i]; 
+        if(listAnggotaSorted[i].noAnggota < listAnggotaSorted[j].noAnggota){
+            eBox[k] = listAnggotaSorted[i]; 
             i++;
-        }else{
-            eBox[k] = listAnggota[j];
+        } else {
+            eBox[k] = listAnggotaSorted[j];
             j++;
         }
         k++;
     }
 
     while(i <= mid){
-        eBox[k] = listAnggota[i];
-        i++; k++;
+        eBox[k] = listAnggotaSorted[i];
+        i++; 
+        k++;
     }
     
-    while(j <= mid){
-        eBox[k] = listAnggota[j];
-        j++; k++;
+    while(j <= right){
+        eBox[k] = listAnggotaSorted[j];
+        j++; 
+        k++;
     }
     
-    for(int x = 1; x <= right; x++){
-        listAnggota[x] = eBox[x];
+    for(int x = left; x <= right; x++){
+        listAnggotaSorted[x] = eBox[x];
     }
+}
 
-};
-
-void mergeShort(int left, int right){
+void mergeSort(int left, int right){
     if(left < right){
-        int mid = (left + right)/ 2;
-        mergeShort(left, mid);
-        mergeShort(mid + 1, right);
+        int mid = (left + right) / 2;
+        mergeSort(left, mid);
+        mergeSort(mid + 1, right);
         merge(left, mid, right);
     }
+}
 
-    tampilData();
-};
+void mergeSortDisplay(){
+    copyData();
+    mergeSort(0, jumlah - 1);
+    tampilData(listAnggotaSorted);
+}
 
 // Menus
 void menuSorting(){
@@ -302,8 +310,8 @@ void menuSorting(){
         case 2: selectionSort(); break;
         case 3: cout <<"ajdhskd";
         case 4: shellSort(); break;
-        case 5: quickShort(0, jumlah); break;
-        case 6: mergeShort(0, jumlah); break;
+        case 5: quickSortDisplay(); break;
+        case 6: mergeSortDisplay(); break;
         
         default:
             break;
@@ -352,7 +360,7 @@ int main() {
 
         switch (pilih) {
             case 1: inputData(); break;
-            case 2: tampilData(); break;
+            case 2: tampilData(listAnggota); break;
             case 3: menuSearching(); break;
             case 4: menuSorting(); break;
             default: cout << "Pilihan menu tidak ada..." << endl;
