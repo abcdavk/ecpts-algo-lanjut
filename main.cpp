@@ -195,6 +195,7 @@ void menuSorting(){
 }
 
 void menuSearching(){
+    int pilih;
     cout << "MENU :" << endl;
         cout << "==========================" << endl;
         cout << "1. SEQUENTIAL SEARCH" << endl;
@@ -202,6 +203,13 @@ void menuSearching(){
         cout << "3. EXIT" << endl;
         cout << "==========================" << endl;
         cout << "Pilih : ";
+    cin >> pilih;
+    switch (pilih)
+    {
+        case 1: sequentialSearch(); break;
+    
+        default: cout << "Pilihan menu tidak ada..." << endl;
+    }
 }
 
 int main() {
