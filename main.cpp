@@ -182,6 +182,28 @@ void bubbleSortDisplay() {
     tampilDataSorted();
 }
 
+void selectionSort() {
+    int i, j;
+    DataAnggota temp;
+
+    copyData();
+
+    for (i = 0; i < jumlah -1; i++)
+    {
+        int minIndex = i;
+        for (j = i+1; j < jumlah; j++)
+        {
+            if (listAnggotaSorted[j].noAnggota < listAnggotaSorted[minIndex].noAnggota) {
+                minIndex = j;
+            }
+        }
+        
+        swap(listAnggotaSorted[i], listAnggotaSorted[minIndex]);
+    }
+
+    tampilDataSorted();
+}
+
 void shellSort() {
     int i, j, k;
 
@@ -282,7 +304,7 @@ void menuSorting(){
 
     switch (pilih){
         case 1: bubbleSortDisplay(); break;
-        case 2: cout <<"ahsdakjdha";
+        case 2: selectionSort(); break;
         case 3: cout <<"ajdhskd";
         case 4: shellSort(); break;
         case 5: quickShort(0, jumlah); break;
