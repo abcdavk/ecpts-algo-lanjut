@@ -38,35 +38,33 @@ void inputData() {
 }
 
 void tampilData() {
-    cout << "==================================" << endl;
     if (jumlah == 0) {
+        cout << "==================================" << endl;
         cout << "data belum diinput" << endl;
         return;
     }
-    cout << "  NO. ANGGOTA\tNAMA ANGGOTA\t\tALAMAT" << endl;
-    cout << "==================================" << endl;
     for (int i = 0; i < jumlah; i++) {
-        cout << "  " << listAnggota[i].noAnggota
-             << "\t" << listAnggota[i].namaAnggota
-             << "\t" << listAnggota[i].alamat << endl;
+        cout << "==================================" << endl;
+        cout << " No. Anggota  : " << listAnggota[i].noAnggota << endl;
+        cout << " Nama Anggota : " << listAnggota[i].namaAnggota << endl;
+        cout << " Alamat       : " << listAnggota[i].alamat << endl;
+        cout << "==================================" << endl << endl;
     }
-    cout << "==================================" << endl;
 }
 
 void tampilDataSorted() {
-    cout << "==================================" << endl;
     if (jumlah == 0) {
+        cout << "==================================" << endl;
         cout << "data belum diinput" << endl;
         return;
     }
-    cout << "  NO. ANGGOTA\tNAMA ANGGOTA\t\tALAMAT" << endl;
-    cout << "==================================" << endl;
     for (int i = 0; i < jumlah; i++) {
-        cout << "  " << listAnggotaSorted[i].noAnggota
-             << "\t" << listAnggotaSorted[i].namaAnggota
-             << "\t" << listAnggotaSorted[i].alamat << endl;
+        cout << "==================================" << endl;
+        cout << " No. Anggota  : " << listAnggotaSorted[i].noAnggota << endl;
+        cout << " Nama Anggota : " << listAnggotaSorted[i].namaAnggota << endl;
+        cout << " Alamat       : " << listAnggotaSorted[i].alamat << endl;
+        cout << "==================================" << endl << endl;
     }
-    cout << "==================================" << endl;
 }
 
 void tampilDataById(int i) {
@@ -245,10 +243,7 @@ void menuSorting(){
         
         default:
             break;
-    }
-
-    tampilData();
-    
+    }    
 }
 
 void menuSearching(){
