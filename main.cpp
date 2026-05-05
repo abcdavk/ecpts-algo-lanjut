@@ -16,6 +16,8 @@ DataAnggota listAnggotaSorted[MAX_DATA];
 DataAnggota eBox[MAX_DATA];
 int jumlah = 0;
 
+void bubbleSort();
+
 // helper
 void inputData() {
     cout << "==================================" << endl;
@@ -103,6 +105,50 @@ void sequentialSearch() {
             cout << "\nData tidak ditemukan" << endl;
         else
             tampilDataById(i);
+        
+        cout << "Ulangi? (y/t) : ";
+        cin >> ulangi;
+
+    } while (ulangi == 'y' || ulangi == 'Y');
+}
+
+void binarySearch() {
+    char ulangi = 't';
+    int noAnggota, low, high, mid;
+
+    bubbleSort();
+    
+    do {
+        cout << "\n\n";
+        cout << "BINARY SEARCH" << endl;
+        cout << "=================" << endl;
+        cout << "\nNo Anggota yang dicari : ";
+        cin >> noAnggota;
+
+        low = 0;
+        high = jumlah - 1;
+        bool ditemukan = false;
+
+        while (low <= high) {
+            mid = low + (high - low) / 2;
+
+            if (noAnggota == listAnggotaSorted[mid].noAnggota) {
+                ditemukan = true;
+                break;
+            }
+            else if (noAnggota > listAnggotaSorted[mid].noAnggota) {
+                low = mid + 1;
+            }
+            else {
+                high = mid - 1;
+            }
+        }
+
+        if (ditemukan) {
+            tampilDataById(mid);
+        } else {
+            cout << "\nData tidak ditemukan" << endl;
+        }
         
         cout << "Ulangi? (y/t) : ";
         cin >> ulangi;
@@ -259,6 +305,7 @@ void menuSearching(){
     switch (pilih)
     {
         case 1: sequentialSearch(); break;
+        case 2: binarySearch(); break;
     
         default: cout << "Pilihan menu tidak ada..." << endl;
     }
