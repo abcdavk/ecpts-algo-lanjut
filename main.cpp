@@ -12,9 +12,11 @@ struct DataAnggota {
 
 const int MAX_DATA = 100;
 DataAnggota listAnggota[MAX_DATA];
+DataAnggota listAnggotaSorted[MAX_DATA];
 DataAnggota eBox[MAX_DATA];
 int jumlah = 0;
 
+// helper
 void inputData() {
     cout << "==================================" << endl;
     cout << "Jumlah data yang ingin diinput: ";
@@ -51,6 +53,22 @@ void tampilData() {
     cout << "==================================" << endl;
 }
 
+void tampilDataSorted() {
+    cout << "==================================" << endl;
+    if (jumlah == 0) {
+        cout << "data belum diinput" << endl;
+        return;
+    }
+    cout << "  NO. ANGGOTA\tNAMA ANGGOTA\t\tALAMAT" << endl;
+    cout << "==================================" << endl;
+    for (int i = 0; i < jumlah; i++) {
+        cout << "  " << listAnggotaSorted[i].noAnggota
+             << "\t" << listAnggotaSorted[i].namaAnggota
+             << "\t" << listAnggotaSorted[i].alamat << endl;
+    }
+    cout << "==================================" << endl;
+}
+
 void tampilDataById(int i) {
     cout << "\nData di temukan" << endl;
     cout << "==================================" << endl;
@@ -58,6 +76,12 @@ void tampilDataById(int i) {
     cout << " Nama Anggota : " << listAnggota[i].namaAnggota << endl;
     cout << " Alamat       : " << listAnggota[i].alamat << endl;
     cout << "==================================" << endl;
+}
+
+void copyData() {
+    for (int i = 0; i < jumlah; i++) {
+        listAnggotaSorted[i] = listAnggota[i];
+    }
 }
 
 // Searching
@@ -90,6 +114,29 @@ void sequentialSearch() {
 
 
 // Sorting
+void bubbleSort() {
+    int i, j;
+    DataAnggota temp;
+
+    copyData();
+
+    // sorting process
+    for (i = 0; i < jumlah - 1; i++) {
+        for (j = 0; j < jumlah - 1 - i; j++) {
+            if (listAnggotaSorted[j].noAnggota > listAnggotaSorted[j+1].noAnggota) {
+                temp = listAnggotaSorted[j];
+                listAnggotaSorted[j] = listAnggotaSorted[j+1];
+                listAnggotaSorted[j+1] = temp;
+            }
+        }
+    }
+}
+
+void bubbleSortDisplay() {
+    bubbleSort();
+    tampilDataSorted();
+}
+
 void shellSort() {
     int i, j, k;
 
@@ -189,7 +236,7 @@ void menuSorting(){
     cout << "Pilih : "; cin >> pilih;
 
     switch (pilih){
-        case 1: cout <<"ajjasakj";
+        case 1: bubbleSortDisplay(); break;
         case 2: cout <<"ahsdakjdha";
         case 3: cout <<"ajdhskd";
         case 4: shellSort(); break;
