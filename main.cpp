@@ -176,6 +176,7 @@ void bubbleSort() {
     }
 }
 
+// Bubble sort nya dua, yang atas buat sorting sebelum binary search
 void bubbleSortDisplay() {
     bubbleSort();
     tampilDataSorted();
