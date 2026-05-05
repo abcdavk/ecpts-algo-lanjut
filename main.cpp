@@ -16,8 +16,6 @@ DataAnggota listAnggotaSorted[MAX_DATA];
 DataAnggota eBox[MAX_DATA];
 int jumlah = 0;
 
-void bubbleSort();
-
 // helper
 void inputData() {
     cout << "==================================" << endl;
@@ -69,12 +67,12 @@ void tampilDataSorted() {
     }
 }
 
-void tampilDataById(int i) {
+void tampilDataById(int i, DataAnggota array[]) {
     cout << "\nData di temukan" << endl;
     cout << "==================================" << endl;
-    cout << " No. Anggota  : " << listAnggota[i].noAnggota << endl;
-    cout << " Nama Anggota : " << listAnggota[i].namaAnggota << endl;
-    cout << " Alamat       : " << listAnggota[i].alamat << endl;
+    cout << " No. Anggota  : " << array[i].noAnggota << endl;
+    cout << " Nama Anggota : " << array[i].namaAnggota << endl;
+    cout << " Alamat       : " << array[i].alamat << endl;
     cout << "==================================" << endl;
 }
 
@@ -104,7 +102,7 @@ void sequentialSearch() {
         if (i == jumlah)
             cout << "\nData tidak ditemukan" << endl;
         else
-            tampilDataById(i);
+            tampilDataById(i, listAnggota);
         
         cout << "Ulangi? (y/t) : ";
         cin >> ulangi;
@@ -112,6 +110,7 @@ void sequentialSearch() {
     } while (ulangi == 'y' || ulangi == 'Y');
 }
 
+void bubbleSort();
 void binarySearch() {
     char ulangi = 't';
     int noAnggota, low, high, mid;
@@ -145,7 +144,7 @@ void binarySearch() {
         }
 
         if (ditemukan) {
-            tampilDataById(mid);
+            tampilDataById(mid, listAnggotaSorted);
         } else {
             cout << "\nData tidak ditemukan" << endl;
         }
