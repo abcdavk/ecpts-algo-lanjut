@@ -51,6 +51,36 @@ void tampilData() {
     cout << "==================================" << endl;
 }
 
+
+void sequentialSearch() {
+    char ulangi = 't';
+    int noAnggota;
+    
+    do {
+        int i = 0;
+        cout << "\n\n";
+        cout << "SEQUENTIAL SEARCH" << endl;
+        cout << "=================" << endl;
+        cout << "\nNo Anggota yang dicari : ";
+        cin >> noAnggota;
+
+        while (listAnggota[i].noAnggota != noAnggota)
+        {
+            i++;
+        }
+        cout << "\n\nData di temukan" << endl;
+        cout << "==================================" << endl;
+        cout << " No. Anggota  : " << listAnggota[i].noAnggota << endl;
+        cout << " Nama Anggota : " << listAnggota[i].namaAnggota << endl;
+        cout << " Alamat       : " << listAnggota[i].alamat << endl;
+        cout << "==================================" << endl;       
+
+        cout << "Ulangi? (y/t) : ";
+
+        cin >> ulangi;
+    } while (ulangi == 'y' || ulangi == 'Y');
+}
+
 void shellSort() {
     int i, j, k;
 
