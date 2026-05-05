@@ -16,8 +16,6 @@ DataAnggota listAnggotaSorted[MAX_DATA];
 DataAnggota eBox[MAX_DATA];
 int jumlah = 0;
 
-void bubbleSort();
-
 // helper
 void inputData() {
     cout << "==================================" << endl;
@@ -69,12 +67,12 @@ void tampilDataSorted() {
     }
 }
 
-void tampilDataById(int i) {
+void tampilDataById(int i, DataAnggota array[]) {
     cout << "\nData di temukan" << endl;
     cout << "==================================" << endl;
-    cout << " No. Anggota  : " << listAnggota[i].noAnggota << endl;
-    cout << " Nama Anggota : " << listAnggota[i].namaAnggota << endl;
-    cout << " Alamat       : " << listAnggota[i].alamat << endl;
+    cout << " No. Anggota  : " << array[i].noAnggota << endl;
+    cout << " Nama Anggota : " << array[i].namaAnggota << endl;
+    cout << " Alamat       : " << array[i].alamat << endl;
     cout << "==================================" << endl;
 }
 
@@ -104,7 +102,7 @@ void sequentialSearch() {
         if (i == jumlah)
             cout << "\nData tidak ditemukan" << endl;
         else
-            tampilDataById(i);
+            tampilDataById(i, listAnggota);
         
         cout << "Ulangi? (y/t) : ";
         cin >> ulangi;
@@ -112,6 +110,7 @@ void sequentialSearch() {
     } while (ulangi == 'y' || ulangi == 'Y');
 }
 
+void bubbleSort();
 void binarySearch() {
     char ulangi = 't';
     int noAnggota, low, high, mid;
@@ -145,7 +144,7 @@ void binarySearch() {
         }
 
         if (ditemukan) {
-            tampilDataById(mid);
+            tampilDataById(mid, listAnggotaSorted);
         } else {
             cout << "\nData tidak ditemukan" << endl;
         }
@@ -160,7 +159,6 @@ void binarySearch() {
 // Sorting
 void bubbleSort() {
     int i, j;
-    DataAnggota temp;
 
     copyData();
 
@@ -168,16 +166,36 @@ void bubbleSort() {
     for (i = 0; i < jumlah - 1; i++) {
         for (j = 0; j < jumlah - 1 - i; j++) {
             if (listAnggotaSorted[j].noAnggota > listAnggotaSorted[j+1].noAnggota) {
-                temp = listAnggotaSorted[j];
-                listAnggotaSorted[j] = listAnggotaSorted[j+1];
-                listAnggotaSorted[j+1] = temp;
+                swap(listAnggotaSorted[j], listAnggotaSorted[j+1]);
             }
         }
     }
 }
 
+// Bubble sort nya dua, yang atas buat sorting sebelum binary search
 void bubbleSortDisplay() {
     bubbleSort();
+    tampilDataSorted();
+}
+
+void selectionSort() {
+    int i, j;
+
+    copyData();
+
+    for (i = 0; i < jumlah -1; i++)
+    {
+        int minIndex = i;
+        for (j = i+1; j < jumlah; j++)
+        {
+            if (listAnggotaSorted[j].noAnggota < listAnggotaSorted[minIndex].noAnggota) {
+                minIndex = j;
+            }
+        }
+        
+        swap(listAnggotaSorted[i], listAnggotaSorted[minIndex]);
+    }
+
     tampilDataSorted();
 }
 
@@ -281,7 +299,7 @@ void menuSorting(){
 
     switch (pilih){
         case 1: bubbleSortDisplay(); break;
-        case 2: cout <<"ahsdakjdha";
+        case 2: selectionSort(); break;
         case 3: cout <<"ajdhskd";
         case 4: shellSort(); break;
         case 5: quickShort(0, jumlah); break;
