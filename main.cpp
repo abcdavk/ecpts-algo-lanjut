@@ -160,7 +160,6 @@ void binarySearch() {
 // Sorting
 void bubbleSort() {
     int i, j;
-    DataAnggota temp;
 
     copyData();
 
@@ -168,9 +167,7 @@ void bubbleSort() {
     for (i = 0; i < jumlah - 1; i++) {
         for (j = 0; j < jumlah - 1 - i; j++) {
             if (listAnggotaSorted[j].noAnggota > listAnggotaSorted[j+1].noAnggota) {
-                temp = listAnggotaSorted[j];
-                listAnggotaSorted[j] = listAnggotaSorted[j+1];
-                listAnggotaSorted[j+1] = temp;
+                swap(listAnggotaSorted[j], listAnggotaSorted[j+1]);
             }
         }
     }
@@ -184,7 +181,6 @@ void bubbleSortDisplay() {
 
 void selectionSort() {
     int i, j;
-    DataAnggota temp;
 
     copyData();
 
