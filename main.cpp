@@ -78,11 +78,11 @@ void tampilData(DataAnggota array[]) {
 void tampilDataById(int i, DataAnggota array[]) {
     clearScreen();
     cout << "\nData di temukan" << endl;
-    cout << "==================================" << endl;
+    cout << "───────────────────────────" << endl;
     cout << " No. Anggota  : " << array[i].noAnggota << endl;
     cout << " Nama Anggota : " << array[i].namaAnggota << endl;
     cout << " Alamat       : " << array[i].alamat << endl;
-    cout << "==================================" << endl;
+    cout << "───────────────────────────" << endl;
 }
 
 /**
