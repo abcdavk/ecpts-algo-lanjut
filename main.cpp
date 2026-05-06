@@ -16,27 +16,14 @@ DataAnggota listAnggotaSorted[MAX_DATA];
 DataAnggota eBox[MAX_DATA];
 int jumlah = 0;
 
-// helper
-/**
- * @brief Membersikan CLI
- * @note Kompatibel dengan windows, linux dan mac.
- */
-void clearScreen() {
-    #ifdef _WIN_32
-        system("cls");
-    #else
-        system("clear");
-    #endif    
-}
-
 void inputData() {
-    clearScreen();
-    cout << "───────────────────────────" << endl;
+    system("cls");
+    cout << "===========================" << endl;
     cout << "Jumlah data yang ingin diinput: ";
     cin >> jumlah;
 
     for (int i = 0; i < jumlah; i++) {
-        cout << "───────────────────────────" << endl;
+        cout << "===========================" << endl;
         cout << "Data ke-" << (i + 1) << endl;
         cout << "  No. Anggota  : ";
         cin >> listAnggota[i].noAnggota;
@@ -46,7 +33,7 @@ void inputData() {
         cout << "  Alamat       : ";
         getline(cin, listAnggota[i].alamat);
     }
-    cout << "───────────────────────────" << endl;
+    cout << "===========================" << endl;
     cout << "Data berhasil diinput!" << endl;
 }
 
@@ -55,18 +42,18 @@ void inputData() {
  * @param array[] array yang ingin di gunakan
  */
 void tampilData(DataAnggota array[]) {
-    clearScreen();
+    system("cls");
     if (jumlah == 0) {
-        cout << "───────────────────────────" << endl;
+        cout << "===========================" << endl;
         cout << "data belum diinput" << endl;
         return;
     }
     for (int i = 0; i < jumlah; i++) {
-        cout << "───────────────────────────" << endl;
+        cout << "===========================" << endl;
         cout << " No. Anggota  : " << array[i].noAnggota << endl;
         cout << " Nama Anggota : " << array[i].namaAnggota << endl;
         cout << " Alamat       : " << array[i].alamat << endl;
-        cout << "───────────────────────────" << endl << endl;
+        cout << "===========================" << endl << endl;
     }
 }
 
@@ -76,13 +63,13 @@ void tampilData(DataAnggota array[]) {
  * @param array[] array yang ingin di gunakan
  */
 void tampilDataById(int i, DataAnggota array[]) {
-    clearScreen();
+    system("cls");
     cout << "\nData di temukan" << endl;
-    cout << "───────────────────────────" << endl;
+    cout << "===========================" << endl;
     cout << " No. Anggota  : " << array[i].noAnggota << endl;
     cout << " Nama Anggota : " << array[i].namaAnggota << endl;
     cout << " Alamat       : " << array[i].alamat << endl;
-    cout << "───────────────────────────" << endl;
+    cout << "===========================" << endl;
 }
 
 /**
@@ -101,18 +88,18 @@ void sequentialSearch() {
     int noAnggota;
 
     if (jumlah == 0) {
-        cout << "───────────────────────────" << endl;
+        cout << "===========================" << endl;
         cout << "data belum diinput" << endl;
         return;
     }
     
     do {
-        clearScreen();
+        system("cls");
         int i = 0;
         cout << "\n\n";
-        cout << "┌──────────────────────────┐" << endl;
-        cout << "│     SEQUENTIAL SEARCH    │" << endl;
-        cout << "└──────────────────────────┘" << endl;
+        cout << "==========================" << endl;
+        cout << "     SEQUENTIAL SEARCH    " << endl;
+        cout << "==========================" << endl;
         cout << "\nNo Anggota yang dicari : ";
         cin >> noAnggota;
 
@@ -137,7 +124,7 @@ void binarySearch() {
     int noAnggota, low, high, mid;
 
     if (jumlah == 0) {
-        cout << "───────────────────────────" << endl;
+        cout << "===========================" << endl;
         cout << "data belum diinput" << endl;
         return;
     }
@@ -145,11 +132,11 @@ void binarySearch() {
     bubbleSort();
     
     do {
-        clearScreen();
+        system("cls");
         cout << "\n\n";
-        cout << "┌──────────────────────────┐" << endl;
-        cout << "│       BINARY SEARCH      │" << endl;
-        cout << "└──────────────────────────┘" << endl;
+        cout << "==========================" << endl;
+        cout << "       BINARY SEARCH      " << endl;
+        cout << "==========================" << endl;
         cout << "\nNo Anggota yang dicari : ";
         cin >> noAnggota;
 
@@ -343,21 +330,21 @@ void mergeSortDisplay(){
 
 // Menus
 void menuSorting(){
-    clearScreen();
+    system("cls");
     
     int pilih;
     
-    cout << "┌──────────────────────────┐" << endl;
-    cout << "│PILIH ALGORITMA SORTING   │" << endl;
-    cout << "├──────────────────────────┤" << endl;
-    cout << "│ 1. BUBBLE SORT           │" << endl;
-    cout << "│ 2. SELECTION SORT        │" << endl;
-    cout << "│ 3. INSERTION SORT        │" << endl;
-    cout << "│ 4. SHELL SORT            │" << endl;
-    cout << "│ 5. QUICK SORT            │" << endl;
-    cout << "│ 6. MERGE SORT            │" << endl;
-    cout << "│ 7. EXIT                  │" << endl;
-    cout << "└──────────────────────────┘=" << endl;
+    cout << "==========================" << endl;
+    cout << "PILIH ALGORITMA SORTING   " << endl;
+    cout << "==========================" << endl;
+    cout << " 1. BUBBLE SORT           " << endl;
+    cout << " 2. SELECTION SORT        " << endl;
+    cout << " 3. INSERTION SORT        " << endl;
+    cout << " 4. SHELL SORT            " << endl;
+    cout << " 5. QUICK SORT            " << endl;
+    cout << " 6. MERGE SORT            " << endl;
+    cout << " 7. EXIT                  " << endl;
+    cout << "==========================" << endl;
     cout << "Pilih : "; cin >> pilih;
 
     switch (pilih){
@@ -374,23 +361,24 @@ void menuSorting(){
 }
 
 void menuSearching(){
-    clearScreen();
+    system("cls");
     
     int pilih;
     
-    cout << "┌──────────────────────────┐" << endl;
-    cout << "│PILIH ALGORITMA SEARCHING │" << endl;
-    cout << "├──────────────────────────┤" << endl;
-    cout << "│ 1. SEQUENTIAL SEARCH     │" << endl;
-    cout << "│ 2. BINARY SEARCH         │" << endl;
-    cout << "│ 3. EXIT                  │" << endl;
-    cout << "└──────────────────────────┘" << endl;
+    cout << "==========================" << endl;
+    cout << "PILIH ALGORITMA SEARCHING " << endl;
+    cout << "==========================" << endl;
+    cout << " 1. SEQUENTIAL SEARCH     " << endl;
+    cout << " 2. BINARY SEARCH         " << endl;
+    cout << " 3. EXIT                  " << endl;
+    cout << "==========================" << endl;
     cout << "Pilih : ";
     cin >> pilih;
     switch (pilih)
     {
         case 1: sequentialSearch(); break;
         case 2: binarySearch(); break;
+        case 3: break;
     
         default: cout << "Pilihan menu tidak ada..." << endl;
     }
@@ -402,16 +390,16 @@ int main() {
     char kembali;
     
     do {
-        clearScreen();
-        cout << "┌──────────────────────────┐" << endl;
-        cout << "│           MENU           │" << endl;
-        cout << "├──────────────────────────┤" << endl;
-        cout << "│ 1. INPUT DATA            │" << endl;
-        cout << "│ 2. TAMPIL DATA           │" << endl;
-        cout << "│ 3. SEARCHING             │" << endl;
-        cout << "│ 4. SORTING               │" << endl;
-        cout << "│ 5. EXIT                  │" << endl;
-        cout << "└──────────────────────────┘" << endl;
+        system("cls");
+        cout << "==========================" << endl;
+        cout << "           MENU           " << endl;
+        cout << "==========================" << endl;
+        cout << " 1. INPUT DATA            " << endl;
+        cout << " 2. TAMPIL DATA           " << endl;
+        cout << " 3. SEARCHING             " << endl;
+        cout << " 4. SORTING               " << endl;
+        cout << " 5. EXIT                  " << endl;
+        cout << "==========================" << endl;
         cout << "Pilih : ";
         cin >> pilih;
 
