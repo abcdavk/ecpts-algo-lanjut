@@ -197,6 +197,19 @@ void selectionSort() {
     tampilData(listAnggotaSorted);
 }
 
+void insertionShort(){
+    int i, j;
+    for(i = 1; i < jumlah; i++){
+        eBox[i] = listAnggotaSorted[i];
+        j = i - 1;
+        while ((j >= 0) && (listAnggotaSorted[j].noAnggota > eBox[i].noAnggota)){
+            listAnggotaSorted[j+1] = listAnggotaSorted[j];
+        }
+        listAnggotaSorted[j+1] = eBox[i];
+    }
+    tampilData(listAnggotaSorted);
+};
+
 void shellSort() {
     int i, j, k;
 
@@ -308,7 +321,7 @@ void menuSorting(){
     switch (pilih){
         case 1: bubbleSortDisplay(); break;
         case 2: selectionSort(); break;
-        case 3: cout <<"ajdhskd";
+        case 3: insertionShort(); break;
         case 4: shellSort(); break;
         case 5: quickSortDisplay(); break;
         case 6: mergeSortDisplay(); break;
