@@ -199,11 +199,15 @@ void selectionSort() {
 
 void insertionShort(){
     int i, j;
+
+    copyData();
+
     for(i = 1; i < jumlah; i++){
         eBox[i] = listAnggotaSorted[i];
         j = i - 1;
         while ((j >= 0) && (listAnggotaSorted[j].noAnggota > eBox[i].noAnggota)){
             listAnggotaSorted[j+1] = listAnggotaSorted[j];
+            j--;
         }
         listAnggotaSorted[j+1] = eBox[i];
     }
@@ -213,17 +217,20 @@ void insertionShort(){
 void shellSort() {
     int i, j, k;
 
+    copyData();
+
     for (i = jumlah / 2; i > 0; i = i / 2) {
         for (j = i; j < jumlah; j++) {
             for (k = j - i; k >= 0; k = k - i) {
-                if (listAnggota[k + i].noAnggota < listAnggota[k].noAnggota) {
-                    swap(listAnggota[k], listAnggota[k + i]);
+                if (listAnggotaSorted[k + i].noAnggota < listAnggotaSorted[k].noAnggota) {
+                    swap(listAnggotaSorted[k], listAnggotaSorted[k + i]);
                 }
             }
         }
     }
 
     cout << "Data Setelah Shell Sort:" << endl;
+    tampilData(listAnggotaSorted);
 }
 
 int partition(int low, int high){
