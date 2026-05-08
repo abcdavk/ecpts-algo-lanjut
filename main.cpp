@@ -7,8 +7,8 @@ using namespace std;
 
 struct DataAnggota {
     long noAnggota;
-    string namaAnggota;
-    string alamat;
+    char namaAnggota[50];
+    char alamat[50];
 };
 
 const int MAX_DATA = 100;
@@ -16,44 +16,59 @@ DataAnggota listAnggota[MAX_DATA];
 DataAnggota listAnggotaSorted[MAX_DATA];
 DataAnggota eBox[MAX_DATA];
 string listFile[MAX_DATA];
-ofstream myFile();
-ofstream file();
 int jumlah = 0;
-int jumFile = 0;
 
-void createFile(string namaFile){
-    ofstream file("dataFile.txt");
-    file << namaFile << endl;
+void writeBinaryFile(string fileName) {
+    ofstream file(fileName, ios::binary);
+    
+    if (file.is_open()) {
+        file.write(reinterpret_cast<char*>(&jumlah), sizeof(jumlah));
+
+        file.write(reinterpret_cast<char*>(listAnggota), sizeof(DataAnggota) * jumlah);
+        file.close();
+    }
+}
+
+void readBinaryFile(string fileName) {
+    ifstream file(fileName, ios::binary);
+    
+    if (file.is_open()) {
+        file.read(reinterpret_cast<char*>(&jumlah), sizeof(jumlah));
+
+        file.read(reinterpret_cast<char*>(listAnggota), sizeof(DataAnggota) * jumlah);
+        file.close();
+    }
 }
 
 void inputData() {
-    string namaFile;
     system("cls");
-    cout << "Nama file(.txt) : "; cin >> namaFile;
-    ofstream myFile(namaFile);
-    listFile[jumFile] = namaFile;
+
+    
+    string namaFile;
+    cout << "Input nama file: "; cin >> namaFile;
+    
+    
     cout << "===========================" << endl;
     cout << "Jumlah data yang ingin diinput: ";
     cin >> jumlah;
-
+    
+    
     for (int i = 0; i < jumlah; i++) {
         cout << "===========================" << endl;
         cout << "Data ke-" << (i + 1) << endl;
         cout << "  No. Anggota  : ";
         cin >> listAnggota[i].noAnggota;
         cin.ignore();
-        myFile << listAnggota[i].namaAnggota << ", ";
-        cout << "  Nama Anggota : ";
-        getline(cin, listAnggota[i].namaAnggota);
-        myFile << listAnggota[i].namaAnggota << ", ";
-        cout << "  Alamat       : ";
-        getline(cin, listAnggota[i].alamat);
-        myFile << listAnggota[i].alamat << "/\n";
+        cout << "Nama Anggota : ";
+        cin.getline(listAnggota[i].namaAnggota, 50);
+        
+        cout << "Alamat       : ";
+        cin.getline(listAnggota[i].alamat, 50);
     }
+
+    writeBinaryFile(namaFile);
     cout << "===========================" << endl;
-    cout << namaFile << "complate\n";
     cout << "Data berhasil diinput!" << endl;
-    jumFile++;
 }
 
 /**
@@ -61,26 +76,8 @@ void inputData() {
  * @param array[] array yang ingin di gunakan
  */
 void tampilData(DataAnggota array[]) {
-    int pilih;
-    string myText, text;
     system("cls");
-    /*if (jumFile == 0){
-        cout << "===========================" << endl;
-        cout << "data belum diinput" << endl;
-        return;
-    }*/
-
-    ifstream file("dataFile.txt");
-    cout << "List-File: \n";
-    for(int f = 0;f < jumFile;f++){
-        cout << f+1 << ". " << listFile[f] << endl;
-    }
-
-    cout << "Pilih : "; cin >> pilih;
-    ifstream myReadFile(listFile[pilih]);
-    while(getline (myReadFile, myText)){
-        cout << myText << endl;
-    }
+    int pilih;
 
     for (int i = 0; i < jumlah; i++) {
         cout << "===========================" << endl;
@@ -89,6 +86,14 @@ void tampilData(DataAnggota array[]) {
         cout << " Alamat       : " << array[i].alamat << endl;
         cout << "===========================" << endl << endl;
     }
+}
+
+void tampilDataByFile() {
+    string namaFile;
+    cout << "Input nama file: "; cin >> namaFile;
+    readBinaryFile(namaFile);
+
+    tampilData(listAnggota);    
 }
 
 /**
@@ -445,7 +450,7 @@ int main() {
 
         switch (pilih) {
             case 1: inputData(); break;
-            case 2: tampilData(listAnggota); break;
+            case 2: tampilDataByFile(); break;
             case 3: menuSearching(); break;
             case 4: menuSorting(); break;
             case 5: break;
