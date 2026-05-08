@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <fstream>
 using namespace std;
 
 struct DataAnggota {
@@ -14,10 +15,23 @@ const int MAX_DATA = 100;
 DataAnggota listAnggota[MAX_DATA];
 DataAnggota listAnggotaSorted[MAX_DATA];
 DataAnggota eBox[MAX_DATA];
+string listFile[MAX_DATA];
+ofstream myFile();
+ofstream file();
 int jumlah = 0;
+int jumFile = 0;
+
+void createFile(string namaFile){
+    ofstream file("dataFile.txt");
+    file << namaFile << endl;
+}
 
 void inputData() {
+    string namaFile;
     system("cls");
+    cout << "Nama file(.txt) : "; cin >> namaFile;
+    ofstream myFile(namaFile);
+    listFile[jumFile] = namaFile;
     cout << "===========================" << endl;
     cout << "Jumlah data yang ingin diinput: ";
     cin >> jumlah;
@@ -28,13 +42,18 @@ void inputData() {
         cout << "  No. Anggota  : ";
         cin >> listAnggota[i].noAnggota;
         cin.ignore();
+        myFile << listAnggota[i].namaAnggota << ", ";
         cout << "  Nama Anggota : ";
         getline(cin, listAnggota[i].namaAnggota);
+        myFile << listAnggota[i].namaAnggota << ", ";
         cout << "  Alamat       : ";
         getline(cin, listAnggota[i].alamat);
+        myFile << listAnggota[i].alamat << "/\n";
     }
     cout << "===========================" << endl;
+    cout << namaFile << "complate\n";
     cout << "Data berhasil diinput!" << endl;
+    jumFile++;
 }
 
 /**
@@ -42,12 +61,27 @@ void inputData() {
  * @param array[] array yang ingin di gunakan
  */
 void tampilData(DataAnggota array[]) {
+    int pilih;
+    string myText, text;
     system("cls");
-    if (jumlah == 0) {
+    /*if (jumFile == 0){
         cout << "===========================" << endl;
         cout << "data belum diinput" << endl;
         return;
+    }*/
+
+    ifstream file("dataFile.txt");
+    cout << "List-File: \n";
+    for(int f = 0;f < jumFile;f++){
+        cout << f+1 << ". " << listFile[f] << endl;
     }
+
+    cout << "Pilih : "; cin >> pilih;
+    ifstream myReadFile(listFile[pilih]);
+    while(getline (myReadFile, myText)){
+        cout << myText << endl;
+    }
+
     for (int i = 0; i < jumlah; i++) {
         cout << "===========================" << endl;
         cout << " No. Anggota  : " << array[i].noAnggota << endl;
@@ -398,7 +432,8 @@ int main() {
         cout << " 2. TAMPIL DATA           " << endl;
         cout << " 3. SEARCHING             " << endl;
         cout << " 4. SORTING               " << endl;
-        cout << " 5. EXIT                  " << endl;
+        cout << " 5. OPERASI FILE          " << endl;
+        cout << " 6. EXIT                  " << endl;
         cout << "==========================" << endl;
         cout << "Pilih : ";
         cin >> pilih;
@@ -413,6 +448,7 @@ int main() {
             case 2: tampilData(listAnggota); break;
             case 3: menuSearching(); break;
             case 4: menuSorting(); break;
+            case 5: break;
             default: cout << "Pilihan menu tidak ada..." << endl;
         }
 
