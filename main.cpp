@@ -3,6 +3,10 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+
+// Sesuaikan dengan OS
+#define CLEAR_SCREEN system("clear")
+
 using namespace std;
 
 struct DataAnggota {
@@ -41,12 +45,10 @@ void readBinaryFile(string fileName) {
 }
 
 void inputData() {
-    system("cls");
+    CLEAR_SCREEN;
 
-    
     string namaFile;
     cout << "Input nama file: "; cin >> namaFile;
-    
     
     cout << "===========================" << endl;
     cout << "Jumlah data yang ingin diinput: ";
@@ -76,7 +78,7 @@ void inputData() {
  * @param array[] array yang ingin di gunakan
  */
 void tampilData(DataAnggota array[]) {
-    system("cls");
+    CLEAR_SCREEN;
     int pilih;
 
     for (int i = 0; i < jumlah; i++) {
@@ -102,7 +104,7 @@ void tampilDataByFile() {
  * @param array[] array yang ingin di gunakan
  */
 void tampilDataById(int i, DataAnggota array[]) {
-    system("cls");
+    CLEAR_SCREEN;
     cout << "\nData di temukan" << endl;
     cout << "===========================" << endl;
     cout << " No. Anggota  : " << array[i].noAnggota << endl;
@@ -133,7 +135,7 @@ void sequentialSearch() {
     }
     
     do {
-        system("cls");
+        CLEAR_SCREEN;
         int i = 0;
         cout << "\n\n";
         cout << "==========================" << endl;
@@ -171,7 +173,7 @@ void binarySearch() {
     bubbleSort();
     
     do {
-        system("cls");
+        CLEAR_SCREEN;
         cout << "\n\n";
         cout << "==========================" << endl;
         cout << "       BINARY SEARCH      " << endl;
@@ -369,7 +371,7 @@ void mergeSortDisplay(){
 
 // Menus
 void menuSorting(){
-    system("cls");
+    CLEAR_SCREEN;
     
     int pilih;
     
@@ -400,7 +402,7 @@ void menuSorting(){
 }
 
 void menuSearching(){
-    system("cls");
+    CLEAR_SCREEN;
     
     int pilih;
     
@@ -429,7 +431,7 @@ int main() {
     char kembali;
     
     do {
-        system("cls");
+        CLEAR_SCREEN;
         cout << "==========================" << endl;
         cout << "           MENU           " << endl;
         cout << "==========================" << endl;
