@@ -27,7 +27,7 @@ DataAnggota eBox[MAX_DATA];
 
 string fileLoaded;
 string listFile[MAX_DATA];
-string fileListName = "database/filelist.txt";
+string fileListName = "data/filelist.txt";
 
 int jumlah = 0;
 int jumlahFile = 0;
@@ -58,7 +58,7 @@ void loadListFile() {
  * menyimpannya ke `filelist.txt`
  */
 void addListFile(string fileName) {
-    fs::create_directories("database");
+    fs::create_directories("data");
     ofstream file(fileListName);;
 
     listFile[jumlahFile] = fileName;
@@ -81,8 +81,8 @@ void addListFile(string fileName) {
  * @param fileName nama file untuk menyimpan data
  */
 void writeBinaryFile(string fileName) {
-    fs::create_directory("database");
-    ofstream file("database/" + fileName + ".bin", ios::binary);
+    fs::create_directory("data");
+    ofstream file("data/" + fileName + ".bin", ios::binary);
 
     addListFile(fileName);
     
@@ -100,7 +100,7 @@ void writeBinaryFile(string fileName) {
  * @param fileName nama file tujuan
  */
 void readBinaryFile(string fileName) {
-    ifstream file("database/" + fileName + ".bin", ios::binary);
+    ifstream file("data/" + fileName + ".bin", ios::binary);
     
     if (file.is_open()) {
         file.read(reinterpret_cast<char*>(&jumlah), sizeof(jumlah));
@@ -530,7 +530,7 @@ int main() {
         cout << " 2. TAMPIL DATA           " << endl;
         cout << " 3. SEARCHING             " << endl;
         cout << " 4. SORTING               " << endl;
-        cout << " 5. OPERASI FILE          " << endl;
+        cout << " 5. FILE: MERGING URUT    " << endl;
         cout << " 6. EXIT                  " << endl;
         cout << "==========================" << endl;
         cout << "File di-load: " << fileLoaded << endl;
