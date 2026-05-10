@@ -31,6 +31,10 @@ string fileListName = "database/filelist.txt";
 int jumlah = 0;
 int jumlahFile = 0;
 
+/**
+ * Memuat data dari `filelist.txt` ke dalam
+ * array `listFile`
+ */
 void loadListFile() {
     ifstream file(fileListName);
 
@@ -48,6 +52,10 @@ void loadListFile() {
     }
 }
 
+/**
+ * Menambah data listFile lalu
+ * menyimpannya ke `filelist.txt`
+ */
 void addListFile(string fileName) {
     fs::create_directories("database");
     ofstream file(fileListName);;
