@@ -533,7 +533,7 @@ int main() {
         cout << "Pilih : ";
         cin >> pilih;
 
-        if (pilih == 5) {
+        if (pilih == 6) {
             cout << "Keluar dari program..." << endl;
             return 0;
         }
