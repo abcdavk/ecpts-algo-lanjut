@@ -25,6 +25,7 @@ DataAnggota listAnggota[MAX_DATA];
 DataAnggota listAnggotaSorted[MAX_DATA];
 DataAnggota eBox[MAX_DATA];
 
+string fileLoaded;
 string listFile[MAX_DATA];
 string fileListName = "database/filelist.txt";
 
@@ -112,8 +113,8 @@ void readBinaryFile(string fileName) {
 void inputData() {
     CLEAR_SCREEN;
 
-    string namaFile;
-    cout << "Input nama file: "; cin >> namaFile;
+    string fileName;
+    cout << "Input nama file: "; cin >> fileName;
     
     cout << "===========================" << endl;
     cout << "Jumlah data yang ingin diinput: ";
@@ -133,9 +134,11 @@ void inputData() {
         cin.getline(listAnggota[i].alamat, 50);
     }
 
-    writeBinaryFile(namaFile);
+    writeBinaryFile(fileName);
     cout << "===========================" << endl;
     cout << "Data berhasil diinput!" << endl;
+
+    fileLoaded = fileName+".bin";
 }
 
 /**
@@ -194,6 +197,7 @@ void pilihFile() {
         return;
     }
 
+    fileLoaded = listFile[pilih-1]+".bin";
     readBinaryFile(listFile[pilih-1]);
 }
 
@@ -514,7 +518,6 @@ int main() {
     char kembali;
     
     loadListFile();
-    
 
     do {
         CLEAR_SCREEN;
@@ -529,6 +532,8 @@ int main() {
         cout << " 4. SORTING               " << endl;
         cout << " 5. OPERASI FILE          " << endl;
         cout << " 6. EXIT                  " << endl;
+        cout << "==========================" << endl;
+        cout << "File di-load: " << fileLoaded << endl;
         cout << "==========================" << endl;
         cout << "Pilih : ";
         cin >> pilih;
