@@ -5,7 +5,10 @@
 #include <fstream>
 #include <filesystem>
 
-// Sesuaikan dengan OS
+/**
+ * @note sesuaikan parameter `*__command`
+ * dengan command di OS mu agar tidak error.
+ */
 #define CLEAR_SCREEN system("clear")
 
 using namespace std;
@@ -24,6 +27,14 @@ DataAnggota eBox[MAX_DATA];
 string listFile[MAX_DATA];
 int jumlah = 0;
 
+/**
+ * Menulis data ke file binary
+ * 
+ * @note `fs::create_directory` berfungsi untuk membuat 
+ * directory dimana file akan disimpan. 
+ * 
+ * @param fileName nama file untuk menyimpan data
+ */
 void writeBinaryFile(string fileName) {
     fs::create_directory("database");
     ofstream file("database/" + fileName, ios::binary);
@@ -36,6 +47,11 @@ void writeBinaryFile(string fileName) {
     }
 }
 
+/**
+ * Membaca data dari file binary
+ * 
+ * @param fileName nama file tujuan
+ */
 void readBinaryFile(string fileName) {
     ifstream file("database/" + fileName, ios::binary);
     
