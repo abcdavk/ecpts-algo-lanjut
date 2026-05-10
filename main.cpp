@@ -3,11 +3,13 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <filesystem>
 
 // Sesuaikan dengan OS
 #define CLEAR_SCREEN system("clear")
 
 using namespace std;
+namespace fs = filesystem;
 
 struct DataAnggota {
     long noAnggota;
@@ -23,7 +25,8 @@ string listFile[MAX_DATA];
 int jumlah = 0;
 
 void writeBinaryFile(string fileName) {
-    ofstream file(fileName, ios::binary);
+    fs::create_directory("database");
+    ofstream file("database/" + fileName, ios::binary);
     
     if (file.is_open()) {
         file.write(reinterpret_cast<char*>(&jumlah), sizeof(jumlah));
@@ -34,7 +37,7 @@ void writeBinaryFile(string fileName) {
 }
 
 void readBinaryFile(string fileName) {
-    ifstream file(fileName, ios::binary);
+    ifstream file("database/" + fileName, ios::binary);
     
     if (file.is_open()) {
         file.read(reinterpret_cast<char*>(&jumlah), sizeof(jumlah));
