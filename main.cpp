@@ -14,18 +14,54 @@
 using namespace std;
 namespace fs = filesystem;
 
+const int MAX_DATA = 100;
 struct DataAnggota {
     long noAnggota;
     char namaAnggota[50];
     char alamat[50];
 };
 
-const int MAX_DATA = 100;
 DataAnggota listAnggota[MAX_DATA];
 DataAnggota listAnggotaSorted[MAX_DATA];
 DataAnggota eBox[MAX_DATA];
+
 string listFile[MAX_DATA];
+string fileListName = "database/filelist.txt";
+
 int jumlah = 0;
+int jumlahFile = 0;
+
+void loadListFile() {
+    ifstream file(fileListName);
+
+    if (file) {
+        file >> jumlahFile;
+
+        file.ignore();
+
+        for (int i = 0; i < jumlahFile; i++)
+        {
+            getline(file, listFile[i]);
+        }
+    
+        file.close();
+    }
+}
+
+void addListFile(string fileName) {
+    fs::create_directories("database");
+    ofstream file(fileListName);;
+
+    listFile[jumlahFile] = fileName;
+    jumlahFile++;
+
+    file << jumlahFile << "\n";
+
+    for (int i = 0; i < jumlahFile; i++) {
+        file << listFile[i] << "\n";
+    }
+    file.close();
+}
 
 /**
  * Menulis data ke file binary
@@ -37,7 +73,9 @@ int jumlah = 0;
  */
 void writeBinaryFile(string fileName) {
     fs::create_directory("database");
-    ofstream file("database/" + fileName, ios::binary);
+    ofstream file("database/" + fileName + ".bin", ios::binary);
+
+    addListFile(fileName);
     
     if (file.is_open()) {
         file.write(reinterpret_cast<char*>(&jumlah), sizeof(jumlah));
@@ -53,7 +91,7 @@ void writeBinaryFile(string fileName) {
  * @param fileName nama file tujuan
  */
 void readBinaryFile(string fileName) {
-    ifstream file("database/" + fileName, ios::binary);
+    ifstream file("database/" + fileName + ".bin", ios::binary);
     
     if (file.is_open()) {
         file.read(reinterpret_cast<char*>(&jumlah), sizeof(jumlah));
@@ -80,10 +118,10 @@ void inputData() {
         cout << "  No. Anggota  : ";
         cin >> listAnggota[i].noAnggota;
         cin.ignore();
-        cout << "Nama Anggota : ";
+        cout << "  Nama Anggota : ";
         cin.getline(listAnggota[i].namaAnggota, 50);
         
-        cout << "Alamat       : ";
+        cout << "  Alamat       : ";
         cin.getline(listAnggota[i].alamat, 50);
     }
 
@@ -100,6 +138,12 @@ void tampilData(DataAnggota array[]) {
     CLEAR_SCREEN;
     int pilih;
 
+    if (jumlah == 0) {
+        cout << "===========================" << endl;
+        cout << "data belum diinput" << endl;
+        return;
+    }
+
     for (int i = 0; i < jumlah; i++) {
         cout << "===========================" << endl;
         cout << " No. Anggota  : " << array[i].noAnggota << endl;
@@ -107,14 +151,6 @@ void tampilData(DataAnggota array[]) {
         cout << " Alamat       : " << array[i].alamat << endl;
         cout << "===========================" << endl << endl;
     }
-}
-
-void tampilDataByFile() {
-    string namaFile;
-    cout << "Input nama file: "; cin >> namaFile;
-    readBinaryFile(namaFile);
-
-    tampilData(listAnggota);    
 }
 
 /**
@@ -130,6 +166,27 @@ void tampilDataById(int i, DataAnggota array[]) {
     cout << " Nama Anggota : " << array[i].namaAnggota << endl;
     cout << " Alamat       : " << array[i].alamat << endl;
     cout << "===========================" << endl;
+}
+
+void pilihFile() {
+    CLEAR_SCREEN;
+    int pilih;
+
+    cout << "Pilih File" << endl;
+    cout << "===========================" << endl;
+
+    for (int i = 0; i < jumlahFile; i++) 
+        cout << i+1 << ". " << listFile[i] << endl;
+    
+    cout << "===========================" << endl;
+    cout << "Pilih: "; cin >> pilih;
+    
+    if (pilih > jumlahFile || pilih <= 0) {
+        cout << "Pilihan tidak ada\n";
+        return;
+    }
+
+    readBinaryFile(listFile[pilih-1]);
 }
 
 /**
@@ -445,15 +502,19 @@ void menuSearching(){
 }
 
 int main() {
-    
     int pilih;
     char kembali;
     
+    loadListFile();
+    
+
     do {
         CLEAR_SCREEN;
+
         cout << "==========================" << endl;
         cout << "           MENU           " << endl;
         cout << "==========================" << endl;
+        cout << " 0. PILIH FILE            " << endl;
         cout << " 1. INPUT DATA            " << endl;
         cout << " 2. TAMPIL DATA           " << endl;
         cout << " 3. SEARCHING             " << endl;
@@ -470,8 +531,9 @@ int main() {
         }
 
         switch (pilih) {
+            case 0: pilihFile(); break;
             case 1: inputData(); break;
-            case 2: tampilDataByFile(); break;
+            case 2: tampilData(listAnggota); break;
             case 3: menuSearching(); break;
             case 4: menuSorting(); break;
             case 5: break;
