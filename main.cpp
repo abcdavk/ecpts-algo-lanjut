@@ -78,7 +78,7 @@ void addListFile(string fileName) {
  * directory dimana file akan disimpan. 
  * 
  * @param fileName nama file untuk menyimpan data
- * @param array array tujuan
+ * @param array array yang ingin di simpan
  * @param jumlahData jumlah data dari array
  */
 void writeBinaryFile(string fileName, DataAnggota array[], int &jumlahData) {
@@ -105,12 +105,12 @@ void writeBinaryFile(string fileName, DataAnggota array[], int &jumlahData) {
  * Membaca data dari file binary
  * 
  * @param fileName nama file
- * @param array array tujuan
+ * @param arrayTarget array tujuan
  * @param jumlahData jumlah data dari array
  */
 void readBinaryFile(
     string fileName,
-    DataAnggota array[],
+    DataAnggota arrayTarget[],
     int &jumlahData
 ) {
     ifstream file("data/" + fileName + ".bin", ios::binary);
@@ -125,7 +125,7 @@ void readBinaryFile(
 
         // baca seluruh isi array
         file.read(
-            reinterpret_cast<char*>(array),
+            reinterpret_cast<char*>(arrayTarget),
             sizeof(DataAnggota) * jumlahData
         );
 
@@ -479,10 +479,6 @@ void mergeSortDisplay(){
     tampilData(listAnggotaSorted);
 }
 
-void mergeFileUrut() {
-    
-}
-
 // Menus
 void operasiFileMergeUrut() {
     CLEAR_SCREEN;
@@ -499,6 +495,7 @@ void operasiFileMergeUrut() {
 
     if (jumlahMerge <= 1 || jumlahMerge > jumlahFile) {
         cout << "Jumlah file tidak valid." << endl;
+        return;
     }
 
     for (int i = 0; i < jumlahMerge; i++) {
@@ -515,16 +512,31 @@ void operasiFileMergeUrut() {
 
         readBinaryFile(listFile[pilih[i]-1], temp, jumlahTemp);
 
-        for (int j = 0; j < jumlahTemp; j++)
-        {
+        for (int j = 0; j < jumlahTemp; j++) {
             hasilMerge[jumlahHasil] = temp[j];
             jumlahHasil++;
         }        
     }
 
     string hasilFileName;
-    cout << "\nNama file untuk menyimpan hasil merge: "; cin >> hasilFileName;    
-    writeBinaryFile(hasilFileName, hasilMerge, jumlahHasil);
+    cout << "\nNama file untuk menyimpan hasil merge: "; cin >> hasilFileName;
+    
+    jumlah = jumlahHasil;
+
+    for (int i = 0; i < jumlahHasil; i++) {
+        listAnggota[i] = hasilMerge[i];
+    }
+    
+    bubbleSort();
+    
+    writeBinaryFile(hasilFileName, listAnggotaSorted, jumlah);
+
+    for (int i = 0; i < jumlahHasil; i++) {
+        listAnggota[i] = listAnggotaSorted[i];
+    }
+    
+
+    fileLoaded = listFile[jumlahFile-1]+".bin";
 }
 
 void menuSorting(){
