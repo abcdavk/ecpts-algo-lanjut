@@ -184,7 +184,6 @@ void pilihFile() {
     int pilih;
 
     cout << "Pilih File" << endl;
-    cout << "===========================" << endl;
 
     for (int i = 0; i < jumlahFile; i++) 
         cout << i+1 << ". " << listFile[i] << endl;
