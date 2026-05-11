@@ -523,17 +523,8 @@ void operasiFileMergeUrut() {
     }
 
     string hasilFileName;
-    cout << "\nNama file untuk menyimpan hasil merge: "; cin >> hasilFileName;
-    
+    cout << "\nNama file untuk menyimpan hasil merge: "; cin >> hasilFileName;    
     writeBinaryFile(hasilFileName, hasilMerge, jumlahHasil);
-    
-    for (int i = 0; i < jumlah; i++) {
-        cout << "===========================" << endl;
-        cout << " No. Anggota  : " << hasilMerge[i].noAnggota << endl;
-        cout << " Nama Anggota : " << hasilMerge[i].namaAnggota << endl;
-        cout << " Alamat       : " << hasilMerge[i].alamat << endl;
-        cout << "===========================" << endl << endl;
-    }    
 }
 
 void menuSorting(){
