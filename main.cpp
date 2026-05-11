@@ -2,26 +2,148 @@
 
 #include <iostream>
 #include <string>
-using namespace std;
+#include <fstream>
+#include <filesystem>
 
-struct DataAnggota {
-    long noAnggota;
-    string namaAnggota;
-    string alamat;
-};
+/**
+ * @note sesuaikan parameter `*__command`
+ * dengan command di OS mu agar tidak error.
+ */
+#define CLEAR_SCREEN system("clear")
+
+using namespace std;
+namespace fs = filesystem;
 
 const int MAX_DATA = 100;
+struct DataAnggota {
+    long noAnggota;
+    char namaAnggota[50];
+    char alamat[50];
+};
+
 DataAnggota listAnggota[MAX_DATA];
 DataAnggota listAnggotaSorted[MAX_DATA];
 DataAnggota eBox[MAX_DATA];
+
+string fileLoaded;
+string listFile[MAX_DATA];
+string fileListName = "data/filelist.txt";
+
 int jumlah = 0;
+int jumlahFile = 0;
+
+/**
+ * Memuat data dari `filelist.txt` ke dalam
+ * array `listFile`
+ */
+void loadListFile() {
+    ifstream file(fileListName);
+
+    if (file) {
+        file >> jumlahFile;
+
+        file.ignore();
+
+        for (int i = 0; i < jumlahFile; i++) {
+            getline(file, listFile[i]);
+        }
+    
+        file.close();
+    }
+}
+
+/**
+ * Menambah data listFile lalu
+ * menyimpannya ke `filelist.txt`
+ */
+void addListFile(string fileName) {
+    fs::create_directories("data");
+    ofstream file(fileListName);;
+
+    listFile[jumlahFile] = fileName;
+    jumlahFile++;
+
+    file << jumlahFile << "\n";
+
+    for (int i = 0; i < jumlahFile; i++) {
+        file << listFile[i] << "\n";
+    }
+    file.close();
+}
+
+/**
+ * Menulis data ke file binary
+ * 
+ * @note `fs::create_directory` berfungsi untuk membuat 
+ * directory dimana file akan disimpan. 
+ * 
+ * @param fileName nama file untuk menyimpan data
+ * @param array array yang ingin di simpan
+ * @param jumlahData jumlah data dari array
+ */
+void writeBinaryFile(string fileName, DataAnggota array[], int &jumlahData) {
+    fs::create_directory("data");
+    ofstream file("data/" + fileName + ".bin", ios::binary);
+
+    addListFile(fileName);
+    
+    if (file.is_open()) {
+        file.write(
+            reinterpret_cast<char*>(&jumlahData), 
+            sizeof(jumlahData)
+        );
+
+        file.write(
+            reinterpret_cast<char*>(array), 
+            sizeof(DataAnggota) * jumlahData
+        );
+        file.close();
+    }
+}
+
+/**
+ * Membaca data dari file binary
+ * 
+ * @param fileName nama file
+ * @param arrayTarget array tujuan
+ * @param jumlahData jumlah data dari array
+ */
+void readBinaryFile(
+    string fileName,
+    DataAnggota arrayTarget[],
+    int &jumlahData
+) {
+    ifstream file("data/" + fileName + ".bin", ios::binary);
+
+    if (file.is_open()) {
+
+        // baca jumlah data
+        file.read(
+            reinterpret_cast<char*>(&jumlahData),
+            sizeof(jumlahData)
+        );
+
+        // baca seluruh isi array
+        file.read(
+            reinterpret_cast<char*>(arrayTarget),
+            sizeof(DataAnggota) * jumlahData
+        );
+
+        file.close();
+    }
+}
 
 void inputData() {
-    system("cls");
+    CLEAR_SCREEN;
+
+    string fileName;
+    cout << "Input nama file: "; cin >> fileName;
+    
     cout << "===========================" << endl;
     cout << "Jumlah data yang ingin diinput: ";
     cin >> jumlah;
-
+    
+    
     for (int i = 0; i < jumlah; i++) {
         cout << "===========================" << endl;
         cout << "Data ke-" << (i + 1) << endl;
@@ -29,12 +151,17 @@ void inputData() {
         cin >> listAnggota[i].noAnggota;
         cin.ignore();
         cout << "  Nama Anggota : ";
-        getline(cin, listAnggota[i].namaAnggota);
+        cin.getline(listAnggota[i].namaAnggota, 50);
+        
         cout << "  Alamat       : ";
-        getline(cin, listAnggota[i].alamat);
+        cin.getline(listAnggota[i].alamat, 50);
     }
+
+    writeBinaryFile(fileName, listAnggota, jumlah);
     cout << "===========================" << endl;
     cout << "Data berhasil diinput!" << endl;
+
+    fileLoaded = fileName+".bin";
 }
 
 /**
@@ -42,12 +169,15 @@ void inputData() {
  * @param array[] array yang ingin di gunakan
  */
 void tampilData(DataAnggota array[]) {
-    system("cls");
+    CLEAR_SCREEN;
+    int pilih;
+
     if (jumlah == 0) {
         cout << "===========================" << endl;
         cout << "data belum diinput" << endl;
         return;
     }
+
     for (int i = 0; i < jumlah; i++) {
         cout << "===========================" << endl;
         cout << " No. Anggota  : " << array[i].noAnggota << endl;
@@ -63,13 +193,34 @@ void tampilData(DataAnggota array[]) {
  * @param array[] array yang ingin di gunakan
  */
 void tampilDataById(int i, DataAnggota array[]) {
-    system("cls");
+    CLEAR_SCREEN;
     cout << "\nData di temukan" << endl;
     cout << "===========================" << endl;
     cout << " No. Anggota  : " << array[i].noAnggota << endl;
     cout << " Nama Anggota : " << array[i].namaAnggota << endl;
     cout << " Alamat       : " << array[i].alamat << endl;
     cout << "===========================" << endl;
+}
+
+void pilihFile() {
+    CLEAR_SCREEN;
+    int pilih;
+
+    cout << "Pilih File" << endl;
+
+    for (int i = 0; i < jumlahFile; i++) 
+        cout << i+1 << ". " << listFile[i] << endl;
+    
+    cout << "===========================" << endl;
+    cout << "Pilih: "; cin >> pilih;
+    
+    if (pilih > jumlahFile || pilih <= 0) {
+        cout << "Pilihan tidak ada\n";
+        return;
+    }
+
+    fileLoaded = listFile[pilih-1]+".bin";
+    readBinaryFile(listFile[pilih-1], listAnggota, jumlah);
 }
 
 /**
@@ -94,7 +245,7 @@ void sequentialSearch() {
     }
     
     do {
-        system("cls");
+        CLEAR_SCREEN;
         int i = 0;
         cout << "\n\n";
         cout << "==========================" << endl;
@@ -132,7 +283,7 @@ void binarySearch() {
     bubbleSort();
     
     do {
-        system("cls");
+        CLEAR_SCREEN;
         cout << "\n\n";
         cout << "==========================" << endl;
         cout << "       BINARY SEARCH      " << endl;
@@ -329,8 +480,67 @@ void mergeSortDisplay(){
 }
 
 // Menus
+void operasiFileMergeUrut() {
+    CLEAR_SCREEN;
+    int jumlahMerge;
+    int pilih[MAX_DATA];
+    cout << "Pilih file: " << endl;
+    
+    for (int i = 0; i < jumlahFile; i++) 
+        cout << i+1 << ". " << listFile[i] << endl;
+    
+    cout << "==========================" << endl;
+    
+    cout << "Jumlah file yang ingin di merge: "; cin >> jumlahMerge;
+
+    if (jumlahMerge <= 1 || jumlahMerge > jumlahFile) {
+        cout << "Jumlah file tidak valid." << endl;
+        return;
+    }
+
+    for (int i = 0; i < jumlahMerge; i++) {
+        cout << "Pilih file-" << i+1 << ": "; cin >> pilih[i];
+    }
+    
+    DataAnggota hasilMerge[MAX_DATA];
+    int jumlahHasil = 0;
+
+    for (int i = 0; i < jumlahMerge; i++)
+    {
+        DataAnggota temp[MAX_DATA];
+        int jumlahTemp;
+
+        readBinaryFile(listFile[pilih[i]-1], temp, jumlahTemp);
+
+        for (int j = 0; j < jumlahTemp; j++) {
+            hasilMerge[jumlahHasil] = temp[j];
+            jumlahHasil++;
+        }        
+    }
+
+    string hasilFileName;
+    cout << "\nNama file untuk menyimpan hasil merge: "; cin >> hasilFileName;
+    
+    jumlah = jumlahHasil;
+
+    for (int i = 0; i < jumlahHasil; i++) {
+        listAnggota[i] = hasilMerge[i];
+    }
+    
+    bubbleSort();
+    
+    writeBinaryFile(hasilFileName, listAnggotaSorted, jumlah);
+
+    for (int i = 0; i < jumlahHasil; i++) {
+        listAnggota[i] = listAnggotaSorted[i];
+    }
+    
+
+    fileLoaded = listFile[jumlahFile-1]+".bin";
+}
+
 void menuSorting(){
-    system("cls");
+    CLEAR_SCREEN;
     
     int pilih;
     
@@ -361,7 +571,7 @@ void menuSorting(){
 }
 
 void menuSearching(){
-    system("cls");
+    CLEAR_SCREEN;
     
     int pilih;
     
@@ -385,34 +595,42 @@ void menuSearching(){
 }
 
 int main() {
-    
     int pilih;
     char kembali;
     
+    loadListFile();
+
     do {
-        system("cls");
+        CLEAR_SCREEN;
+
         cout << "==========================" << endl;
         cout << "           MENU           " << endl;
         cout << "==========================" << endl;
+        cout << " 0. PILIH FILE            " << endl;
         cout << " 1. INPUT DATA            " << endl;
         cout << " 2. TAMPIL DATA           " << endl;
         cout << " 3. SEARCHING             " << endl;
         cout << " 4. SORTING               " << endl;
-        cout << " 5. EXIT                  " << endl;
+        cout << " 5. FILE: MERGING URUT    " << endl;
+        cout << " 6. EXIT                  " << endl;
+        cout << "==========================" << endl;
+        cout << "File di-load: " << fileLoaded << endl;
         cout << "==========================" << endl;
         cout << "Pilih : ";
         cin >> pilih;
 
-        if (pilih == 5) {
+        if (pilih == 6) {
             cout << "Keluar dari program..." << endl;
             return 0;
         }
 
         switch (pilih) {
+            case 0: pilihFile(); break;
             case 1: inputData(); break;
             case 2: tampilData(listAnggota); break;
             case 3: menuSearching(); break;
             case 4: menuSorting(); break;
+            case 5: operasiFileMergeUrut(); break;
             default: cout << "Pilihan menu tidak ada..." << endl;
         }
 
