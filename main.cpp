@@ -44,8 +44,7 @@ void loadListFile() {
 
         file.ignore();
 
-        for (int i = 0; i < jumlahFile; i++)
-        {
+        for (int i = 0; i < jumlahFile; i++) {
             getline(file, listFile[i]);
         }
     
@@ -79,17 +78,25 @@ void addListFile(string fileName) {
  * directory dimana file akan disimpan. 
  * 
  * @param fileName nama file untuk menyimpan data
+ * @param array array tujuan
+ * @param jumlahData jumlah data dari array
  */
-void writeBinaryFile(string fileName) {
+void writeBinaryFile(string fileName, DataAnggota array[], int &jumlahData) {
     fs::create_directory("data");
     ofstream file("data/" + fileName + ".bin", ios::binary);
 
     addListFile(fileName);
     
     if (file.is_open()) {
-        file.write(reinterpret_cast<char*>(&jumlah), sizeof(jumlah));
+        file.write(
+            reinterpret_cast<char*>(&jumlahData), 
+            sizeof(jumlahData)
+        );
 
-        file.write(reinterpret_cast<char*>(listAnggota), sizeof(DataAnggota) * jumlah);
+        file.write(
+            reinterpret_cast<char*>(array), 
+            sizeof(DataAnggota) * jumlahData
+        );
         file.close();
     }
 }
@@ -97,15 +104,31 @@ void writeBinaryFile(string fileName) {
 /**
  * Membaca data dari file binary
  * 
- * @param fileName nama file tujuan
+ * @param fileName nama file
+ * @param array array tujuan
+ * @param jumlahData jumlah data dari array
  */
-void readBinaryFile(string fileName) {
+void readBinaryFile(
+    string fileName,
+    DataAnggota array[],
+    int &jumlahData
+) {
     ifstream file("data/" + fileName + ".bin", ios::binary);
-    
-    if (file.is_open()) {
-        file.read(reinterpret_cast<char*>(&jumlah), sizeof(jumlah));
 
-        file.read(reinterpret_cast<char*>(listAnggota), sizeof(DataAnggota) * jumlah);
+    if (file.is_open()) {
+
+        // baca jumlah data
+        file.read(
+            reinterpret_cast<char*>(&jumlahData),
+            sizeof(jumlahData)
+        );
+
+        // baca seluruh isi array
+        file.read(
+            reinterpret_cast<char*>(array),
+            sizeof(DataAnggota) * jumlahData
+        );
+
         file.close();
     }
 }
@@ -134,7 +157,7 @@ void inputData() {
         cin.getline(listAnggota[i].alamat, 50);
     }
 
-    writeBinaryFile(fileName);
+    writeBinaryFile(fileName, listAnggota, jumlah);
     cout << "===========================" << endl;
     cout << "Data berhasil diinput!" << endl;
 
@@ -197,7 +220,7 @@ void pilihFile() {
     }
 
     fileLoaded = listFile[pilih-1]+".bin";
-    readBinaryFile(listFile[pilih-1]);
+    readBinaryFile(listFile[pilih-1], listAnggota, jumlah);
 }
 
 /**
@@ -456,7 +479,63 @@ void mergeSortDisplay(){
     tampilData(listAnggotaSorted);
 }
 
+void mergeFileUrut() {
+    
+}
+
 // Menus
+void operasiFileMergeUrut() {
+    CLEAR_SCREEN;
+    int jumlahMerge;
+    int pilih[MAX_DATA];
+    cout << "Pilih file: " << endl;
+    
+    for (int i = 0; i < jumlahFile; i++) 
+        cout << i+1 << ". " << listFile[i] << endl;
+    
+    cout << "==========================" << endl;
+    
+    cout << "Jumlah file yang ingin di merge: "; cin >> jumlahMerge;
+
+    if (jumlahMerge <= 1 || jumlahMerge > jumlahFile) {
+        cout << "Jumlah file tidak valid." << endl;
+    }
+
+    for (int i = 0; i < jumlahMerge; i++) {
+        cout << "Pilih file-" << i+1 << ": "; cin >> pilih[i];
+    }
+    
+    DataAnggota hasilMerge[MAX_DATA];
+    int jumlahHasil = 0;
+
+    for (int i = 0; i < jumlahMerge; i++)
+    {
+        DataAnggota temp[MAX_DATA];
+        int jumlahTemp;
+
+        readBinaryFile(listFile[pilih[i]-1], temp, jumlahTemp);
+
+        for (int j = 0; j < jumlahTemp; j++)
+        {
+            hasilMerge[jumlahHasil] = temp[j];
+            jumlahHasil++;
+        }        
+    }
+
+    string hasilFileName;
+    cout << "\nNama file untuk menyimpan hasil merge: "; cin >> hasilFileName;
+    
+    writeBinaryFile(hasilFileName, hasilMerge, jumlahHasil);
+    
+    for (int i = 0; i < jumlah; i++) {
+        cout << "===========================" << endl;
+        cout << " No. Anggota  : " << hasilMerge[i].noAnggota << endl;
+        cout << " Nama Anggota : " << hasilMerge[i].namaAnggota << endl;
+        cout << " Alamat       : " << hasilMerge[i].alamat << endl;
+        cout << "===========================" << endl << endl;
+    }    
+}
+
 void menuSorting(){
     CLEAR_SCREEN;
     
@@ -548,7 +627,7 @@ int main() {
             case 2: tampilData(listAnggota); break;
             case 3: menuSearching(); break;
             case 4: menuSorting(); break;
-            case 5: break;
+            case 5: operasiFileMergeUrut(); break;
             default: cout << "Pilihan menu tidak ada..." << endl;
         }
 
