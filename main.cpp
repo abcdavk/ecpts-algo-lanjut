@@ -136,7 +136,7 @@ void readBinaryFile(
 
 void simpanSortedFile() {
     char conf;
-    cout << "Apakah anda ingin menyimpan data ini? (Y/n): ";
+    cout << "Apakah anda ingin menyimpan data ini? (Y/t): ";
     cin >> conf;
 
     if (conf != 'Y' && conf != 'y') return;
@@ -185,7 +185,6 @@ void inputData() {
  * @param array[] array yang ingin di gunakan
  */
 void tampilData(DataAnggota array[]) {
-    CLEAR_SCREEN;
     int pilih;
 
     if (jumlah == 0) {
@@ -358,6 +357,11 @@ void bubbleSort() {
 // Bubble sort nya dua, yang atas buat sorting sebelum binary search
 void bubbleSortDisplay() {
     bubbleSort();
+
+    CLEAR_SCREEN;
+    cout << "Data Sebelum di sorting: " << endl;
+    tampilData(listAnggota);
+    cout << "Data Setelah di sorting: " << endl;
     tampilData(listAnggotaSorted);
     simpanSortedFile();
 }
@@ -380,6 +384,10 @@ void selectionSort() {
         swap(listAnggotaSorted[i], listAnggotaSorted[minIndex]);
     }
 
+    CLEAR_SCREEN;
+    cout << "Data Sebelum di sorting: " << endl;
+    tampilData(listAnggota);
+    cout << "Data Setelah di sorting: " << endl;
     tampilData(listAnggotaSorted);
     simpanSortedFile();
 }
@@ -398,6 +406,11 @@ void insertionShort(){
         }
         listAnggotaSorted[j+1] = eBox[i];
     }
+    
+    CLEAR_SCREEN;
+    cout << "Data Sebelum di sorting: " << endl;
+    tampilData(listAnggota);
+    cout << "Data Setelah di sorting: " << endl;
     tampilData(listAnggotaSorted);
     simpanSortedFile();
 };
@@ -417,7 +430,10 @@ void shellSort() {
         }
     }
 
-    cout << "Data Setelah Shell Sort:" << endl;
+    CLEAR_SCREEN;
+    cout << "Data Sebelum di sorting: " << endl;
+    tampilData(listAnggota);
+    cout << "Data Setelah di sorting: " << endl;
     tampilData(listAnggotaSorted);
     simpanSortedFile();
 }
@@ -448,6 +464,13 @@ void quickSort(int low, int high){
 void quickSortDisplay() {
     copyData();
     quickSort(0, jumlah - 1);
+    
+
+    
+    CLEAR_SCREEN;
+    cout << "Data Sebelum di sorting: " << endl;
+    tampilData(listAnggota);
+    cout << "Data Setelah di sorting: " << endl;
     tampilData(listAnggotaSorted);
     simpanSortedFile();
 }
@@ -497,6 +520,11 @@ void mergeSort(int left, int right){
 void mergeSortDisplay(){
     copyData();
     mergeSort(0, jumlah - 1);
+    
+    CLEAR_SCREEN;
+    cout << "Data Sebelum di sorting: " << endl;
+    tampilData(listAnggota);
+    cout << "Data Setelah di sorting: " << endl;
     tampilData(listAnggotaSorted);
     simpanSortedFile();
 }
