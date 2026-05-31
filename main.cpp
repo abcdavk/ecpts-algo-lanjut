@@ -83,7 +83,6 @@ void addListFile(string fileName) {
  * @param jumlahData jumlah data dari array
  */
 void writeBinaryFile(string fileName, DataAnggota array[], int &jumlahData) {
-    //////////fs::create_directory("data");
     ofstream file("data/" + fileName + ".bin", ios::binary);
 
     addListFile(fileName);
@@ -591,7 +590,13 @@ void operasiFileMergeUrut() {
 
 void menuSorting(){
     CLEAR_SCREEN;
-    
+
+    if (jumlah == 0) {
+        cout << "===========================" << endl;
+        cout << "data belum diinput" << endl;
+        return;
+    }
+
     int pilih;
     
     cout << "==========================" << endl;
@@ -622,6 +627,12 @@ void menuSorting(){
 
 void menuSearching(){
     CLEAR_SCREEN;
+
+    if (jumlah == 0) {
+        cout << "===========================" << endl;
+        cout << "data belum diinput" << endl;
+        return;
+    }
     
     int pilih;
     
