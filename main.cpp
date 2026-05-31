@@ -3,16 +3,15 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <filesystem>
 
 /**
- * @note sesuaikan parameter `*__command`
+ * @note sesuaikan parameter 
  * dengan command di OS mu agar tidak error.
  */
 #define CLEAR_SCREEN system("clear")
+#define MKDIR system("mkdir -p data")
 
 using namespace std;
-namespace fs = filesystem;
 
 const int MAX_DATA = 100;
 struct DataAnggota {
@@ -57,18 +56,20 @@ void loadListFile() {
  * menyimpannya ke `filelist.txt`
  */
 void addListFile(string fileName) {
-    fs::create_directories("data");
-    ofstream file(fileListName);;
-
     listFile[jumlahFile] = fileName;
     jumlahFile++;
 
-    file << jumlahFile << "\n";
-
-    for (int i = 0; i < jumlahFile; i++) {
-        file << listFile[i] << "\n";
+    // Tulis ulang seluruh filelist.txt
+    ofstream file(fileListName);
+    if (file.is_open()) {
+        file << jumlahFile << "\n";
+        for (int i = 0; i < jumlahFile; i++) {
+            file << listFile[i] << "\n";
+        }
+        file.close();
+    } else {
+        cout << "ERROR: Gagal menyimpan filelist\n";
     }
-    file.close();
 }
 
 /**
@@ -82,7 +83,7 @@ void addListFile(string fileName) {
  * @param jumlahData jumlah data dari array
  */
 void writeBinaryFile(string fileName, DataAnggota array[], int &jumlahData) {
-    fs::create_directory("data");
+    //////////fs::create_directory("data");
     ofstream file("data/" + fileName + ".bin", ios::binary);
 
     addListFile(fileName);
@@ -598,6 +599,7 @@ int main() {
     int pilih;
     char kembali;
     
+    MKDIR;
     loadListFile();
 
     do {
@@ -642,3 +644,4 @@ int main() {
     cout << "Keluar dari program..." << endl;
     return 0;
 }
+
