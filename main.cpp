@@ -134,6 +134,21 @@ void readBinaryFile(
     }
 }
 
+void simpanSortedFile() {
+    char conf;
+    cout << "Apakah anda ingin menyimpan data ini? (Y/n): ";
+    cin >> conf;
+
+    if (conf != 'Y' && conf != 'y') return;
+    string fileName;
+    cout << "Input nama file: "; cin >> fileName;
+    
+    writeBinaryFile(fileName, listAnggotaSorted, jumlah);
+
+    cout << "File berhasil disimpan!" << endl;
+    cin.get();
+}
+
 void inputData() {
     CLEAR_SCREEN;
 
@@ -344,6 +359,7 @@ void bubbleSort() {
 void bubbleSortDisplay() {
     bubbleSort();
     tampilData(listAnggotaSorted);
+    simpanSortedFile();
 }
 
 void selectionSort() {
@@ -365,6 +381,7 @@ void selectionSort() {
     }
 
     tampilData(listAnggotaSorted);
+    simpanSortedFile();
 }
 
 void insertionShort(){
@@ -382,6 +399,7 @@ void insertionShort(){
         listAnggotaSorted[j+1] = eBox[i];
     }
     tampilData(listAnggotaSorted);
+    simpanSortedFile();
 };
 
 void shellSort() {
@@ -401,6 +419,7 @@ void shellSort() {
 
     cout << "Data Setelah Shell Sort:" << endl;
     tampilData(listAnggotaSorted);
+    simpanSortedFile();
 }
 
 int partition(int low, int high){
@@ -430,6 +449,7 @@ void quickSortDisplay() {
     copyData();
     quickSort(0, jumlah - 1);
     tampilData(listAnggotaSorted);
+    simpanSortedFile();
 }
 
 void merge(int left, int mid, int right){
@@ -478,6 +498,7 @@ void mergeSortDisplay(){
     copyData();
     mergeSort(0, jumlah - 1);
     tampilData(listAnggotaSorted);
+    simpanSortedFile();
 }
 
 // Menus
