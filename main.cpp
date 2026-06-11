@@ -75,9 +75,6 @@ void addListFile(string fileName) {
 /**
  * Menulis data ke file binary
  * 
- * @note `fs::create_directory` berfungsi untuk membuat 
- * directory dimana file akan disimpan. 
- * 
  * @param fileName nama file untuk menyimpan data
  * @param array array yang ingin di simpan
  * @param jumlahData jumlah data dari array
@@ -689,7 +686,10 @@ int main() {
         switch (pilih) {
             case 0: pilihFile(); break;
             case 1: inputData(); break;
-            case 2: tampilData(listAnggota); break;
+            case 2: 
+                CLEAR_SCREEN;
+                tampilData(listAnggota);
+                break;
             case 3: menuSearching(); break;
             case 4: menuSorting(); break;
             case 5: operasiFileMergeUrut(); break;
@@ -704,4 +704,3 @@ int main() {
     cout << "Keluar dari program..." << endl;
     return 0;
 }
-
